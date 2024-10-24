@@ -1,0 +1,9 @@
+a)
+++i kører 5 gange
+i * f kører 5 gange
+Der skal derfor bruges 10 aritmetriske operationer for at regne fact(5)
+
+b)
+++i kører n gange
+i * f kører n gange
+fact(n) kører n + n = 2n gange
