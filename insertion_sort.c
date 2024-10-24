@@ -12,14 +12,14 @@ node* isort(node *list) {
     while(next_element != NULL){
         node *current = next_element;
         next_element = next_element->next;
-        if(current->data < list->data){
+        if(current->data <= list->data){
             current->next = list;
             list = current;
             continue;
         }
         node *list_element = list;
         while(list_element->next != NULL){
-            if(current->data < list_element->next->data){
+            if(current->data <= list_element->next->data){
                 current->next = list_element->next;
                 list_element->next = current;
                 break;
