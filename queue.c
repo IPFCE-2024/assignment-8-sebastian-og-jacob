@@ -6,12 +6,14 @@
 
 // Opgave 3
 void initialize(queue *q) {
+    /*queue gøres tom, og dens længde sættes lig 0*/
     q->front = NULL;
     q->rear = NULL;
     q->size = 0;
 }
 
 bool empty(const queue *q) {
+    /*Hvis size er 0, må queue være tom*/
     if(q->size == 0){
         return true;
     }
@@ -19,47 +21,60 @@ bool empty(const queue *q) {
 }
 
 bool full(const queue *q) {
+    /*En queue baseret på singly linked list kan 
+    aldig være fuld.*/
     return false;
 }
 
 void enqueue(queue *q, int x) {
-    q->size++;
+    /*Det nye element som skal tilføjes til queue kaldes n*/
     node *n = malloc(sizeof(node));
     n->data = x;
-    if(q->front == NULL){
+    /*Hvis queue er tom, sættes front og rear begge til n*/
+    if(empty(q)){
         n->next = NULL;
         q->front = n;
         q->rear = n;
     }
-    else if(q->front == q->rear){
+    /*Hvis queue kun indeholder 1 element sættes n til at pege
+    på front og rear sættes til n*/
+    else if(q->size == 1){
         n->next = q->front;
         q->rear = n;
     }
     else{
+        /*n sættes bagest i queue og rear sættes til n*/
         n->next = q->rear;
         q->rear = n;
     }
+    /*størrelsen af q forøges med 1*/
+    q->size++; 
 }
 
 int dequeue(queue *q) {
+    /*q må ikke være tom, da vi da ikke kan returnere nogen int*/
     assert(!empty(q));
+    /*Værdien for front må skulle returneres*/
     int return_val = q->front->data;
-    if(q->front == q->rear){
-        return_val = q->front->data;
-        q->front = NULL;
-        q->rear = NULL;
+    
+    /*Hvis q kun indeholder 1 element, gøres q tom*/
+    if(q->size == 1){
+        initialize(q);
     }
     else{
         node *cur_node = q->rear;
+        /*Kører loop indtil at cur_node er elementet før front*/
         for(int i = 2; i < q->size; i++){
             cur_node = cur_node->next;
         }
-        return_val = q->front->data;
+        /*Front frigøres, da den skal 'poppes'*/
         free(q->front);
+        /*cur_node sættes som ny front, da den var element lige før
+        front. Cur_node sættes nu til at pege på NULL*/
         q->front = cur_node;
         cur_node->next = NULL;
+        q->size--;
     }
-    q->size--;
     return return_val;
 }
 
