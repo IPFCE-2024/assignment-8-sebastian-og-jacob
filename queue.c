@@ -95,17 +95,6 @@ int dequeueStack(queue *q) {
     return -1;
 }
 
-/*int main(){
-    queue q;
-    initialize(&q);
-    enqueue(&q, 1);
-    enqueue(&q, 2);
-    enqueue(&q, 5);
-    enqueue(&q, 8);
-    printf("%d", dequeue(&q));
-    printf("%d", dequeue(&q));
-    printf("%d", dequeue(&q));
-    printf("%d", dequeue(&q));
 
     return 0;
 }*/
