@@ -109,7 +109,11 @@ void initializeStack(stack *s) {
   s->head = NULL;
 }
 
+
 void enqueueStack(queue *q, int x) {
+    /*Hvis q allerede indeholder et element tilføjes det nye
+    element blot til rear. Hvis q er tom sættes element også
+    som head*/
     push(x, &q->rear);
     if(empty(q)){
         push(x, &q->front);
@@ -118,13 +122,21 @@ void enqueueStack(queue *q, int x) {
 }
 
 int dequeueStack(queue *q) {
+    /*Tjekker at q ikke er tom*/
     assert(!empty(q));
+    /*Laver stack hvor alle elementer fra rear flyttes over via push
+    Herved ændres rækkefølgen på dem.*/
     stack temp_stack;
     initializeStack(&temp_stack);
     while(!emptyStack(&q->rear))
         push(pop(&q->rear), &temp_stack.head);
+    
+    /*Det første element i temp_stack, må nu være lig det første element
+    som tilføjedes til q. Dette sættes derfor til return_val*/
     int return_val = pop(&temp_stack.head);
 
+    /*Hvis temp_stack ikke er tom, flyttes elementerne fra temp_stack
+    tilbage til q. Ellers sættes front blot lig NULL*/
     if(!emptyStack(&temp_stack.head)){
         push(pop(&temp_stack.head), &q->rear);
         q->front = q->rear;
@@ -132,12 +144,16 @@ int dequeueStack(queue *q) {
             push(pop(&temp_stack.head), &q->rear);
         }
     }
+    else{
+        q->front = NULL;
+    }
     
     q->size--;
     return return_val;
 }
 
-int main(){
+
+/*int main(){
     queue *q;
     initialize(q);
     enqueue(q, 1);
@@ -146,7 +162,14 @@ int main(){
     enqueueStack(q, 4);
     printf("%d", dequeueStack(q));
     printf("%d", dequeue(q));
+    printf("%d", dequeue(q));
+    printf("%d", dequeueStack(q));
+    enqueue(q, 6);
+    enqueueStack(q, 12);
+    enqueue(q,2);
     printf("%d", dequeueStack(q));
     printf("%d", dequeue(q));
+    printf("%d", dequeueStack(q));
+    enqueue(q, -13);
     return 0;
-}
+}*/
